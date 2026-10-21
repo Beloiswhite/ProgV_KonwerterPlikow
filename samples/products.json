@@ -1,0 +1,5 @@
+[
+  {"name": "Żółty ser", "price": 12.5, "in_stock": true, "note": null},
+  {"name": "Chleb żytni", "price": 6, "in_stock": false, "note": "świeży"},
+  {"name": "Śliwki", "price": 9.99, "origin": "Węgry"}
+]
