@@ -8,6 +8,10 @@ def test_available_targets_for_csv():
     assert available_targets(Path("data.csv")) == [".json"]
 
 
+def test_available_targets_for_docx():
+    assert available_targets(Path("report.docx")) == [".odt", ".pdf", ".txt"]
+
+
 def test_available_targets_ignores_extension_case():
     assert available_targets(Path("DATA.JSON")) == [".csv"]
 
