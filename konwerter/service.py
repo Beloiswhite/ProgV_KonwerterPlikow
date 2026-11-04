@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from konwerter import converters  # noqa: F401  (importing registers all converters)
-from konwerter.errors import InvalidInputError, OutputExistsError, UnsupportedConversionError
+from konwerter.errors import ConversionError, InvalidInputError, OutputExistsError, UnsupportedConversionError
 from konwerter.registry import REGISTRY, supported_pairs
 
 LOG_FILE = "konwerter.log"
@@ -73,8 +73,11 @@ def execute(request: ConversionRequest, overwrite: bool = False) -> Path:
     started = time.perf_counter()
     try:
         convert(request.source, target)
+    except ConversionError as error:
+        logger.warning("Conversion failed: %s -> %s: %s", request.source, target, error)
+        raise
     except Exception:
-        logger.exception("Conversion failed: %s -> %s", request.source, target)
+        logger.exception("Unexpected error: %s -> %s", request.source, target)
         raise
     logger.info("Converted %s -> %s in %.2f s", request.source, target, time.perf_counter() - started)
     return target
